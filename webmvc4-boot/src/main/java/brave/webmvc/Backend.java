@@ -17,6 +17,7 @@ public class Backend {
   
   @RequestMapping("/api")
   public String printDate(@RequestHeader(name = "user-name", required = false) String username) throws Exception {
+    count++;
     if((count % DIVIDER) == 0) {
       // Creating anomalous sleep for anomaly detection
       Thread.sleep(60000);
