@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Backend {
 
-  private static final int DIVIDER = 50;
   private final PrimitiveIterator.OfLong random = new Random(System.currentTimeMillis())
           .longs(30000, 60000)
           .iterator();
-  private long count;
-  
+
   @RequestMapping("/api")
   public String printDate(@RequestHeader(name = "user-name", required = false) String username) throws Exception {
     // Creating anomalous sleep for anomaly detection
-    if((++count % DIVIDER) == 0) {
+    if((System.currentTimeMillis() / 1000 % 300) == 0) {
       Thread.sleep(random.nextLong());
     }
     
