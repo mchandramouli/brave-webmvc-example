@@ -1,6 +1,7 @@
 package brave.webmvc;
 
 import java.util.Date;
+import java.util.PrimitiveIterator;
 import java.util.Random;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,14 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class Backend {
 
   private static final int DIVIDER = 50;
-  private long count = 1;
+  private final PrimitiveIterator.OfLong random = new Random(System.currentTimeMillis())
+          .longs(30000, 60000)
+          .iterator();
+  private long count;
   
   @RequestMapping("/api")
   public String printDate(@RequestHeader(name = "user-name", required = false) String username) throws Exception {
-    count++;
-    if((count % DIVIDER) == 0) {
-      // Creating anomalous sleep for anomaly detection
-      Thread.sleep(60000);
+    // Creating anomalous sleep for anomaly detection
+    if((++count % DIVIDER) == 0) {
+      Thread.sleep(random.nextLong());
     }
     
     if (username != null) {
